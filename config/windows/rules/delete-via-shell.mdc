@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+---
+
+When the user explicitly requests deleting files or directories, do not use Cursor's built-in Delete tool. Use a bounded PowerShell command instead.
+
+For files, use:
+
+```powershell
+Remove-Item -LiteralPath '<exact-path>' -Force
+```
+
+For an empty directory, use the same command without `-Recurse`. Use:
+
+```powershell
+Remove-Item -LiteralPath '<exact-path>' -Recurse -Force
+```
+
+only when recursive directory deletion was explicitly requested.
+
+Always use `-LiteralPath` with an explicit path. Do not introduce wildcards, broaden the requested target, or delete unrelated files. Verify deletion with:
+
+```powershell
+if (Test-Path -LiteralPath '<exact-path>') { throw 'Deletion verification failed' }
+```

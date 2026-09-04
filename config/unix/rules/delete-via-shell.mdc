@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+---
+
+When the user explicitly requests deleting files, do not use Cursor's built-in Delete tool. Use a bounded Shell command instead.
+
+For files, use:
+
+```sh
+rm -f -- <exact-path>
+```
+
+For directories, prefer `rmdir` when empty. Use:
+
+```sh
+rm -rf -- <exact-path>
+```
+
+only when recursive directory deletion was explicitly requested.
+
+Always use explicit paths. Do not introduce wildcards, broaden the requested target, or delete unrelated files. Verify that the requested target no longer exists after deletion.
