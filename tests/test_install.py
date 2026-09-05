@@ -47,7 +47,8 @@ class InstallerTest(unittest.TestCase):
                 result = subprocess.run(command, cwd=temporary, env=env,
                                         stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                         timeout=60)
-                print(result.stdout.decode('utf-8', errors='replace'))
+                output = result.stdout.decode('utf-8', errors='replace')
+                print(output.encode('ascii', errors='backslashreplace').decode('ascii'))
                 self.assertEqual(result.returncode, 0)
 
             def verify():
