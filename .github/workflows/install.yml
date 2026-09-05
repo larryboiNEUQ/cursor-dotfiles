@@ -1,0 +1,35 @@
+name: Install configuration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    name: ${{ matrix.os }} / ${{ matrix.installer }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            installer: sh
+          - os: macos-latest
+            installer: sh
+          - os: windows-latest
+            installer: powershell
+          - os: windows-latest
+            installer: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test platform installer
+        run: python tests/test_install.py --installer ${{ matrix.installer }} -v

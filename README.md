@@ -87,3 +87,34 @@ On Windows, `~` corresponds to `%USERPROFILE%`.
 ```
 
 Cursor may also select a subagent automatically from its description.
+
+## Cross-platform CI
+
+[![Install configuration](https://github.com/larryboiNEUQ/cursor-dotfiles/actions/workflows/install.yml/badge.svg)](https://github.com/larryboiNEUQ/cursor-dotfiles/actions/workflows/install.yml)
+
+Every push to `main` and pull request runs the actual platform installers on:
+
+- Ubuntu and macOS: `scripts/install.sh`
+- Windows PowerShell 5.1 and PowerShell 7: `scripts/install.ps1`
+
+Tests require Python 3 but no Cursor account. They use an isolated
+`CURSOR_CONFIG_HOME` with spaces and Unicode in its path and invoke the scripts
+from outside the repository. They verify exact installed file contents (including
+the platform-specific rule), repeat-install idempotence, backup contents, and
+preservation of unrelated configuration.
+
+Run locally with Python 3:
+
+```sh
+python3 tests/test_install.py --installer sh -v
+```
+
+```powershell
+python tests/test_install.py --installer powershell -v
+python tests/test_install.py --installer pwsh -v
+```
+
+CI verifies file deployment, not Cursor's runtime rule loading, model availability,
+or Auto-review decisions. Those still require a real Cursor session on the target
+machine. The default home-directory destination is not exercised: CI uses the
+explicit destination override to avoid altering runner configuration.

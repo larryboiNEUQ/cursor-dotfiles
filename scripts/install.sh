@@ -19,6 +19,11 @@ install_file() {
 
   if [ -e "$destination_file" ]; then
     backup_file="$destination_file.bak.$timestamp"
+    backup_suffix=0
+    while [ -e "$backup_file" ]; do
+      backup_suffix=$((backup_suffix + 1))
+      backup_file="$destination_file.bak.$timestamp.$backup_suffix"
+    done
     cp -p "$destination_file" "$backup_file"
     printf 'backup     %s\n' "$backup_file"
   fi

@@ -25,7 +25,12 @@ function Install-ManagedFile {
 
     if (Test-Path -LiteralPath $Destination) {
         $Backup = "$Destination.bak.$Timestamp"
-        Copy-Item -LiteralPath $Destination -Destination $Backup -Force
+        $BackupSuffix = 0
+        while (Test-Path -LiteralPath $Backup) {
+            $BackupSuffix++
+            $Backup = "$Destination.bak.$Timestamp.$BackupSuffix"
+        }
+        Copy-Item -LiteralPath $Destination -Destination $Backup
         Write-Host "backup     $Backup"
     }
 
