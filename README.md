@@ -118,3 +118,10 @@ CI verifies file deployment, not Cursor's runtime rule loading, model availabili
 or Auto-review decisions. Those still require a real Cursor session on the target
 machine. The default home-directory destination is not exercised: CI uses the
 explicit destination override to avoid altering runner configuration.
+
+## Manual Windows permission retest
+
+After pulling this repository on the Windows work computer, copy and run the
+[Windows permission retest prompt](docs/windows-permission-retest-prompt.md).
+It tests the current Cursor Agent CLI permission behavior through Herdr without
+changing the permission configuration.
